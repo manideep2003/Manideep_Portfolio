@@ -154,16 +154,13 @@ const PillNav = ({
         });
     };
 
-    const toggleMobileMenu = () => {
-        const newState = !isMobileMenuOpen;
-        setIsMobileMenuOpen(newState);
-
+    useEffect(() => {
         const hamburger = hamburgerRef.current;
         const menu = mobileMenuRef.current;
 
         if (hamburger) {
             const lines = hamburger.querySelectorAll('.hamburger-line');
-            if (newState) {
+            if (isMobileMenuOpen) {
                 gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease });
                 gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
             } else {
@@ -173,7 +170,7 @@ const PillNav = ({
         }
 
         if (menu) {
-            if (newState) {
+            if (isMobileMenuOpen) {
                 gsap.set(menu, { visibility: 'visible' });
                 gsap.fromTo(
                     menu,
@@ -201,7 +198,10 @@ const PillNav = ({
                 });
             }
         }
+    }, [isMobileMenuOpen, ease]);
 
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(prev => !prev);
         onMobileMenuClick?.();
     };
 
